@@ -6,7 +6,7 @@ def setup_package():
   console_scripts = [ 'mofa=mofa.core.init_asd:entry_point'],
   metadata = dict(
       name = 'MOFA',
-      version = '0.1',
+      version = '0.1.bc',
       description = 'Multi-Omics Factor Analysis',
       #long_description=read('README.rst'),
       url = 'http://github.com/rargelaguet/mofa',

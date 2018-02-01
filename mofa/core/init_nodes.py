@@ -27,6 +27,7 @@ from .nodes import *
 from .multiview_nodes import *
 from .nongaussian_nodes import *
 from .updates import *
+from .variational_nodes import *
 
 
 class initModel(object):
@@ -173,7 +174,7 @@ class initModel(object):
         self.SW = Multiview_Variational_Node(self.M, *SW_list)
         self.nodes["SW"] = self.SW
 
-    def initAlphaW_mk(self, pa, pb, qa, qb, qE):
+    def initAlphaW_mk(self, pa, pb, qa, qb, qE, only_shared=False):
 
         """Method to initialise the precision of the group-wise ARD prior
 
@@ -188,15 +189,34 @@ class initModel(object):
          qE: float
             initial expectation of the variational distribution
         """
-        
+
         alpha_list = [None]*self.M
         for m in range(self.M):
             alpha_list[m] = AlphaW_Node_mk(dim=(self.K,), pa=pa[m], pb=pb[m], qa=qa[m], qb=qb[m], qE=qE[m])
-            # alpha_list[m] = Constant_Node(dim=(self.K,), value=qE[m])
-            # alpha_list[m].factors_axis = 0
+        # alpha_list[m] = Constant_Node(dim=(self.K,), value=qE[m])
+        # alpha_list[m].factors_axis = 0
         self.AlphaW = Multiview_Variational_Node(self.M, *alpha_list)
         # self.AlphaW = Multiview_Constant_Node(self.M, *alpha_list)
         self.nodes["AlphaW"] = self.AlphaW
+
+    def initAlphaShW_mk(self, pa, pb, qa, qb, qE):
+
+        """Method to initialise the precision of the group-wise ARD prior
+
+        PARAMETERS
+        ----------
+         pa: float 
+            'a' parameter of the prior distribution
+         pb :float
+            'b' parameter of the prior distribution
+         qb: float
+            initialisation of the 'b' parameter of the variational distribution
+         qE: float
+            initial expectation of the variational distribution
+        """
+
+        self.AlphaShW = AlphaW_Node_mk(dim=(self.K,), pa=pa, pb=pb, qa=qa, qb=qb, qE=qE)
+        self.nodes["AlphaShW"] = self.AlphaShW
 
     def initTau(self, pa, pb, qa, qb, qE):
         # Method to initialise the precision of the noise

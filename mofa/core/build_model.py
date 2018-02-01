@@ -89,8 +89,12 @@ def runSingleTrial(data, data_opts, model_opts, train_opts, seed=None, trial=1, 
                 qEW_S0=model_opts["initSW"]["EW_S0"], qEW_S1=model_opts["initSW"]["EW_S1"], qES=model_opts["initSW"]["ES"])
 
     # ARD on weights
-    init.initAlphaW_mk(pa=model_opts["priorAlphaW"]['a'], pb=model_opts["priorAlphaW"]['b'],
-                       qa=model_opts["initAlphaW"]['a'], qb=model_opts["initAlphaW"]['b'], qE=model_opts["initAlphaW"]['E'])
+    # init.initAlphaW_mk(pa=model_opts["priorAlphaW"]['a'], pb=model_opts["priorAlphaW"]['b'],
+    #                    qa=model_opts["initAlphaW"]['a'], qb=model_opts["initAlphaW"]['b'], qE=model_opts["initAlphaW"]['E'])
+    
+    # ARDs not dependent on a view
+    init.initAlphaShW_mk(pa=model_opts["priorAlphaShW"]['a'], pb=model_opts["priorAlphaShW"]['b'],
+                         qa=model_opts["initAlphaShW"]['a'], qb=model_opts["initAlphaShW"]['b'], qE=model_opts["initAlphaShW"]['E'])
 
     # Precision of noise
     init.initTau(pa=model_opts["priorTau"]['a'], pb=model_opts["priorTau"]['b'],
@@ -124,8 +128,10 @@ def runSingleTrial(data, data_opts, model_opts, train_opts, seed=None, trial=1, 
     nodes = init.getNodes()
     nodes["Z"].addMarkovBlanket(SW=nodes["SW"], Tau=nodes["Tau"], Y=nodes["Y"])
     nodes["Theta"].addMarkovBlanket(SW=nodes["SW"])
-    nodes["AlphaW"].addMarkovBlanket(SW=nodes["SW"])
-    nodes["SW"].addMarkovBlanket(Z=nodes["Z"], Tau=nodes["Tau"], Alpha=nodes["AlphaW"], Y=nodes["Y"], Theta=nodes["Theta"])
+    # nodes["AlphaW"].addMarkovBlanket(SW=nodes["SW"])
+    nodes["AlphaShW"].addMarkovBlanket(SW=nodes["SW"])
+    # nodes["SW"].addMarkovBlanket(Z=nodes["Z"], Tau=nodes["Tau"], Alpha=nodes["AlphaW"], Y=nodes["Y"], Theta=nodes["Theta"])
+    nodes["SW"].addMarkovBlanket(Z=nodes["Z"], Tau=nodes["Tau"], Alpha=nodes["AlphaShW"], Y=nodes["Y"], Theta=nodes["Theta"])
     nodes["Y"].addMarkovBlanket(Z=nodes["Z"], SW=nodes["SW"], Tau=nodes["Tau"])
     nodes["Tau"].addMarkovBlanket(Z=nodes["Z"], SW=nodes["SW"], Y=nodes["Y"])
 

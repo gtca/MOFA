@@ -6,9 +6,27 @@ Intuitively, MOFA can be viewed as a versatile and statistically rigorous genera
 Once trained, the model output can be used for a range of downstream analyses, including the visualisation of samples in factor space, the automatic annotation of factors using (gene set) enrichment analysis, the identification of outliers (e.g. due to sample swaps) and the imputation of missing values.  
 
 For more details you can read our preprint: https://www.biorxiv.org/content/early/2017/11/10/217554
-<p align="center"> 
-<img src="logo.png" style="width: 50%; height: 50%"/>​
-</p>
+
+
+## MOFA for batch correction
+
+In order to use MOFA to correct for batch effect between multiple datasets, the common dimension between datasets should be features, so that MOFA will take matrices `Samples x Features` as the input. Hence the estimated factors will be in the space of `Features` (e.g., `Genes`).
+To encourage MOFA to learn shared variation the ARD priors on weights should be changed, so that they are the same for all the views (and depend only on the factor).
+
+To accomplish that:
+
+1. add new options in `core/init_asd.py` (`priorAlphaShW` and `initAlphaShW` in `model_opts`, `Sh` standing for `shared`),
+
+2. initialize a node with those options in `core/build_model.py` (`initAlphaShW`),
+
+3. implement `initAlphaShW_mk` inside `initModel` in `core/init_nodes.py`; use the existing `AlphaW_Node_mk` internally,
+
+4. use `AlphaShW` instead of `AlphaW` as parameters in `core/build_model.py` and `core/init_asd.py`,
+
+5. modify the class `AlphaW_Node_mk` in `core/updates.py` so that `ES` and `EWW` are updated properly in `updateParameters`.
+
+
+This way the same alpha should be in the Markov blanket of every view.
 
 
 

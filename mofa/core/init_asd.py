@@ -13,7 +13,7 @@ def entry_point():
   ###                |  \/  |/ _ \|  ___/ \               ### 
   ###                | |\/| | | | | |_ / _ \              ### 
   ###                | |  | | |_| |  _/ ___ \             ### 
-  ###                |_|  |_|\___/|_|/_/   \_\            ### 
+  ###                |_|  |_|\___/|_|/_/   \_\ bc         ### 
   ###                                                     ###
   ########################################################### """
 
@@ -207,7 +207,8 @@ def entry_point():
 
   # Define schedule of updates
   if args.schedule is None:
-    model_opts['schedule'] = ( "Y", "SW", "Z", "AlphaW", "Theta", "Tau" )
+    # model_opts['schedule'] = ( "Y", "SW", "Z", "AlphaW", "Theta", "Tau" )
+    model_opts['schedule'] = ( "Y", "SW", "Z", "AlphaShW", "Theta", "Tau" )
   else:
     model_opts['schedule'] = args.schedule
 
@@ -222,7 +223,9 @@ def entry_point():
 
   # Weights
   model_opts["priorSW"] = { 'Theta':[s.nan]*M, 'mean_S0':[s.nan]*M, 'var_S0':[s.nan]*M, 'mean_S1':[s.nan]*M, 'var_S1':[s.nan]*M } # Not required
-  model_opts["priorAlphaW"] = { 'a':[s.ones(K)*1e-14]*M, 'b':[s.ones(K)*1e-14]*M }
+  # model_opts["priorAlphaW"] = { 'a':[s.ones(K)*1e-14]*M, 'b':[s.ones(K)*1e-14]*M }
+  # ARDs not dependent on a view
+  model_opts["priorAlphaShW"] = { 'a':s.ones(K)*1e-14, 'b':s.ones(K)*1e-14 }
 
   # Theta
   model_opts["priorTheta"] = { 'a':[s.ones(K,) for m in range(M)], 'b':[s.ones(K,) for m in range(M)] }
@@ -247,7 +250,9 @@ def entry_point():
   model_opts["initTau"] = { 'a':[s.nan]*M, 'b':[s.nan]*M, 'E':[s.ones(D[m])*100 for m in range(M)] }
 
   # ARD of weights
-  model_opts["initAlphaW"] = { 'a':[s.nan]*M, 'b':[s.nan]*M, 'E':[s.ones(K)*1. for m in range(M)] }
+  # model_opts["initAlphaW"] = { 'a':[s.nan]*M, 'b':[s.nan]*M, 'E':[s.ones(K)*1. for m in range(M)] }
+  # ARDs not dependent on a view
+  model_opts["initAlphaShW"] = { 'a':s.nan, 'b':s.nan, 'E':s.ones(K)*1. }
 
   # Theta
   model_opts["initTheta"] = { 'a':[s.ones(K,) for m in range(M)], 'b':[s.ones(K,) for m in range(M)], 'E':[s.nan*s.zeros((D[m],K)) for m in range(M)] }
