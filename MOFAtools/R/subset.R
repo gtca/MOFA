@@ -20,7 +20,7 @@ subsetFactors <- function(object, factors) {
   
   # Subset expectations
   object@Expectations$Z <- object@Expectations$Z[,factors]
-  object@Expectations$AlphaW <- sapply(object@Expectations$AlphaW, function(x) x[factors], simplify = F, USE.NAMES = T)
+  object@Expectations$AlphaShW <- sapply(object@Expectations$AlphaShW, function(x) x[factors], simplify = F, USE.NAMES = T)
   object@Expectations$W <- sapply(object@Expectations$W, function(x) x[,factors], simplify = F, USE.NAMES = T)
   object@Expectations$Theta <- sapply(object@Expectations$Theta, function(x) x[factors], simplify = F, USE.NAMES = T)
   

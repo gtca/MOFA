@@ -220,7 +220,7 @@ getCovariates <- function(object, names) {
 #' @title Fetch expectations from the model
 #' @description Function to extract the expectations from the (variational) posterior distributions of a trained MOFAmodel.
 #' @param object a \code{\link{MOFAmodel}} object.
-#' @param variable variable name, 'Z' for factors, 'W' for weights, 'Tau' for noise, 'Y' for pseudodata, 'Theta' for feature-wise spike-and-slab sparsity, 'AlphaW' for view and factor-wise ARD sparsity
+#' @param variable variable name, 'Z' for factors, 'W' for weights, 'Tau' for noise, 'Y' for pseudodata, 'Theta' for feature-wise spike-and-slab sparsity, 'AlphaShW' for factor-wise ARD sparsity
 #' @param as.data.frame boolean indicating whether to output the result as a long data frame, default is FALSE.
 #' @details Technical note: MOFA is a Bayesian model where each variable has a prior distribution and a posterior distribution. 
 #' In particular, to gain speed we used the variational inference framework so true posterior distributions are replaced by approximated variational distributions.
@@ -281,13 +281,10 @@ getExpectations <- function(object, variable, as.data.frame = FALSE) {
       # })
       # tmp <- do.call(rbind,tmp)
     }
-    else if (variable=="AlphaW") {
-      tmp <- lapply(names(exp), function(m) { 
-        tmp <- data.frame(view=m, factor=names(exp[[m]]), value=unname(exp[[m]]))
-        tmp[c("view","feature","factor")] <- sapply(tmp[c("view","feature","factor")], as.character)
-        return(tmp) 
-      })
-      tmp <- do.call(rbind,tmp)
+    else if (variable=="AlphaShW") {
+      tmp <- data.frame(view=m, factor=names(exp[[m]]), value=unname(exp[[m]]))
+      tmp[c("view","feature","factor")] <- sapply(tmp[c("view","feature","factor")], as.character)
+      return(tmp) 
     }
     else if (variable=="Theta") {
       stop("Not implemented")

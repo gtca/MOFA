@@ -21,7 +21,7 @@
   for (node in nodes) {
     
     # Multi-view nodes
-    if (node != "Z") {
+    if (!(node %in% c("Z", "AlphaShW"))) {
     # if (setequal(names(object@Expectations[[node]]),views)) {
       
       # Loop over views
@@ -183,7 +183,7 @@ setMethod("viewNames<-", signature(object="MOFAmodel", value="character"),
     
     # We have to modify this
     if (object@Status == "trained"){
-      multiview_nodes <- c("AlphaW","W","Tau","Theta","Y")
+      multiview_nodes <- c("W","Tau","Theta","Y")
       for (node in multiview_nodes) { 
         names(object@Expectations[[node]]) <- value 
       }
