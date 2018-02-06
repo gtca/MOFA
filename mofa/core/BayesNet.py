@@ -195,7 +195,7 @@ class BayesNet(object):
 
                 # Print first iteration
                 if i==0:
-                    print("Trial %d, Iteration 1: time=%.2f ELBO=%.2f, Factors=%d, Covariates=%d" % (self.trial, time()-t,elbo.iloc[i]["total"], (~self.nodes["Z"].covariates).sum(), self.nodes["Z"].covariates.sum() ))
+                    print("Trial %d, Iteration 1: time=%.2f ELBO=%.2f, Factors=%d, Covariates=%d" % (self.trial, time()-t, elbo.iloc[i]["total"], (~self.nodes["Z"].covariates).sum(), self.nodes["Z"].covariates.sum() ))
                     if self.options['verbose']:
                         print("".join([ "%s=%.2f  " % (k,v) for k,v in elbo.iloc[i].drop("total").iteritems() ]) + "\n")
 
