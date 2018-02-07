@@ -36,8 +36,8 @@ qualityControl <- function(object, verbose = F) {
   # stopifnot(all(sapply(object@Expectations$Theta, is.matrix)))
   stopifnot(is.list(object@Expectations$Tau))
   stopifnot(all(sapply(object@Expectations$Tau, is.numeric)))
-  stopifnot(is.list(object@Expectations$AlphaShW))
-  stopifnot(all(sapply(object@Expectations$AlphaShW, is.numeric)))
+  # stopifnot(is.list(object@Expectations$AlphaShW))
+  # stopifnot(all(sapply(object@Expectations$AlphaShW, is.numeric)))
   
   # Check that the dimensionalities match
   if (verbose==T) message("Checking dimensionalities...")

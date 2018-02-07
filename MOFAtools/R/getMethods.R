@@ -282,8 +282,9 @@ getExpectations <- function(object, variable, as.data.frame = FALSE) {
       # tmp <- do.call(rbind,tmp)
     }
     else if (variable=="AlphaShW") {
-      tmp <- data.frame(view=m, factor=names(exp[[m]]), value=unname(exp[[m]]))
-      tmp[c("view","feature","factor")] <- sapply(tmp[c("view","feature","factor")], as.character)
+      tmp <- exp
+      # tmp <- data.frame(view=m, factor=names(exp[[m]]), value=unname(exp[[m]]))
+      # tmp[c("view","feature","factor")] <- sapply(tmp[c("view","feature","factor")], as.character)
       return(tmp) 
     }
     else if (variable=="Theta") {
