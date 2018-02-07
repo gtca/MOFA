@@ -29,8 +29,8 @@
   # Update expectations
   if (is.list(object@Expectations$Z)) {
     object@Expectations$Z <- object@Expectations$Z$E
+    object@Expectations$AlphaShW <- object@Expectations$AlphaShW$E
     for (view in viewNames(object)) {
-      object@Expectations$AlphaShW <- object@Expectations$AlphaShW$E
       object@Expectations$W[[view]] <- object@Expectations$W[[view]]$E
       object@Expectations$Tau[[view]] <- object@Expectations$Tau[[view]]$E
       object@Expectations$Theta[[view]] <- object@Expectations$Theta[[view]]$E
